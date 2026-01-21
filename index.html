@@ -465,41 +465,41 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-money-check-alt"></i> Debt Tracker</h1>
-            <p class="subtitle">Track, manage, and organize all your debts in one place. Add notes, update amounts, and stay on top of your finances.</p>
+            <h1><img src="phúc ngu.jpg" alt="Phúc ngu" style="width: 4.5%; height: 4.5%; object-fit: cover; border-radius: 50%;"> Debt Tracker</h1>
+            <p class="subtitle">Thằng em Phúc bị khất nợ nhiều quá nên anh tặng chú web này.</p>
         </header>
 
         <div class="app-container">
             <section class="form-section">
-                <h2><i class="fas fa-plus-circle"></i> Add New Debt</h2>
+                <h2><i class="fas fa-plus-circle"></i> Thêm nợ mới</h2>
                 <form id="debtForm">
                     <div class="form-group">
-                        <label for="debtAmount">Amount (VND)</label>
+                        <label for="debtAmount">Số nợ (VND)</label>
                         <div class="currency-input">
                             <span>VND</span>
-                            <input type="text" id="debtAmount" placeholder="Enter amount" required>
+                            <input type="text" id="debtAmount" placeholder="Nhập số tiền" required>
                         </div>
-                        <small style="color: var(--gray); margin-top: 5px; display: block;">Use numbers only. Spaces will be added automatically.</small>
+                        <small style="color: var(--gray); margin-top: 5px; display: block;">Chỉ điền số (tự động cách ô sau mỗi 3 số)</small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="debtNote">Note (Optional)</label>
-                        <textarea id="debtNote" placeholder="Add a note about this debt (e.g., 'Loan to John for car repair', 'Credit card debt', etc.)"></textarea>
+                        <label for="debtNote">Ghi chú (Tùy chọn)</label>
+                        <textarea id="debtNote" placeholder="Ghi chú (tiền ăn trưa, Song Lâm, Kim Ngân,...)"></textarea>
                     </div>
                     
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Add Debt
+                        <i class="fas fa-save"></i> Thêm
                     </button>
                 </form>
             </section>
 
             <section class="debts-section">
                 <div class="total-debts">
-                    <div class="total-label">Total Debts:</div>
+                    <div class="total-label">Tổng tiền nợ:</div>
                     <div class="total-amount"><span id="totalAmount">0</span> VND</div>
                 </div>
                 
-                <h2><i class="fas fa-list-ul"></i> Your Debts</h2>
+                <h2><i class="fas fa-list-ul"></i> Danh sách con nợ</h2>
                 
                 <div id="debtsContainer" class="debts-grid">
                     <div class="empty-state" id="emptyState">
@@ -525,21 +525,21 @@
             <form id="editDebtForm">
                 <input type="hidden" id="editDebtId">
                 <div class="form-group">
-                    <label for="editDebtAmount">Amount (VND)</label>
+                    <label for="editDebtAmount">Số nợ (VND)</label>
                     <div class="currency-input">
                         <span>VND</span>
-                        <input type="text" id="editDebtAmount" placeholder="Enter amount" required>
+                        <input type="text" id="editDebtAmount" placeholder="Nhập số tiền" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="editDebtNote">Note</label>
-                    <textarea id="editDebtNote" placeholder="Update note"></textarea>
+                    <label for="editDebtNote">Ghi chú</label>
+                    <textarea id="editDebtNote" placeholder="Cập nhật ghi chú"></textarea>
                 </div>
                 
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-cancel" id="cancelEdit">Cancel</button>
-                    <button type="submit" class="btn btn-save">Save Changes</button>
+                    <button type="button" class="btn btn-cancel" id="cancelEdit">Hủy</button>
+                    <button type="submit" class="btn btn-save">Lưu thay đổi</button>
                 </div>
             </form>
         </div>
@@ -548,7 +548,7 @@
     <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
-        <span id="notificationText">Debt added successfully!</span>
+        <span id="notificationText">Đã thêm nợ thành công!</span>
     </div>
 
     <script>
@@ -703,14 +703,14 @@
             // Increase amount
             if (target.classList.contains('btn-increase')) {
                 debts[debtIndex].amount += 5000;
-                showNotification(`Increased debt by ${formatVND(100000)} VND`);
+                showNotification(`Increased debt by ${formatVND(5000)} VND`);
             }
             
             // Decrease amount
             else if (target.classList.contains('btn-decrease')) {
                 if (debts[debtIndex].amount > 5000) {
                     debts[debtIndex].amount -= 5000;
-                    showNotification(`Decreased debt by ${formatVND(100000)} VND`);
+                    showNotification(`Decreased debt by ${formatVND(5000)} VND`);
                 } else {
                     showNotification('Debt amount cannot be less than 0', true);
                 }
@@ -783,7 +783,7 @@
         renderDebts();
         
         // Add sample data if no debts exist
-        if (debts.length === 0) {
+        if (debts.length == -1) {
             // Uncomment the following lines to add sample data on first load
             
             debts = [
