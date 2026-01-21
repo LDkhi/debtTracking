@@ -1,0 +1,802 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghi nợ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --danger: #ef476f;
+            --warning: #ffd166;
+            --success: #06d6a0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .form-section h2 {
+            margin-bottom: 25px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section h2 i {
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .currency-input {
+            position: relative;
+        }
+
+        .currency-input span {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .currency-input input {
+            padding-left: 50px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .debts-section h2 {
+            margin-bottom: 25px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .debts-section h2 i {
+            color: var(--secondary);
+        }
+
+        .debts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .debts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .debt-widget {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .debt-widget:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .debt-widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .debt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .debt-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: 0.5px;
+        }
+
+        .currency {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .debt-note {
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.5;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .debt-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-action {
+            flex: 1;
+            min-width: 70px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-increase {
+            background: rgba(6, 214, 160, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(6, 214, 160, 0.3);
+        }
+
+        .btn-increase:hover {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-decrease {
+            background: rgba(239, 71, 111, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 71, 111, 0.3);
+        }
+
+        .btn-decrease:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-edit {
+            background: rgba(255, 209, 102, 0.1);
+            color: #e6a400;
+            border: 1px solid rgba(255, 209, 102, 0.3);
+        }
+
+        .btn-edit:hover {
+            background: #e6a400;
+            color: white;
+        }
+
+        .btn-delete {
+            background: rgba(239, 71, 111, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 71, 111, 0.3);
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--border);
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .total-debts {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            background: var(--light);
+            color: var(--gray);
+            flex: 1;
+        }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-dark);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-money-check-alt"></i> Debt Tracker</h1>
+            <p class="subtitle">Track, manage, and organize all your debts in one place. Add notes, update amounts, and stay on top of your finances.</p>
+        </header>
+
+        <div class="app-container">
+            <section class="form-section">
+                <h2><i class="fas fa-plus-circle"></i> Add New Debt</h2>
+                <form id="debtForm">
+                    <div class="form-group">
+                        <label for="debtAmount">Amount (VND)</label>
+                        <div class="currency-input">
+                            <span>VND</span>
+                            <input type="text" id="debtAmount" placeholder="Enter amount" required>
+                        </div>
+                        <small style="color: var(--gray); margin-top: 5px; display: block;">Use numbers only. Spaces will be added automatically.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="debtNote">Note (Optional)</label>
+                        <textarea id="debtNote" placeholder="Add a note about this debt (e.g., 'Loan to John for car repair', 'Credit card debt', etc.)"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Add Debt
+                    </button>
+                </form>
+            </section>
+
+            <section class="debts-section">
+                <div class="total-debts">
+                    <div class="total-label">Total Debts:</div>
+                    <div class="total-amount"><span id="totalAmount">0</span> VND</div>
+                </div>
+                
+                <h2><i class="fas fa-list-ul"></i> Your Debts</h2>
+                
+                <div id="debtsContainer" class="debts-grid">
+                    <div class="empty-state" id="emptyState">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <h3>No debts added yet. Add your first debt using the form.</h3>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p> &copy; lexoi  <i class="fas fa-heart" style="color: var(--danger);"></i></p>
+        </footer>
+    </div>
+
+    <!-- Edit Debt Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-edit"></i> Edit Debt</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="editDebtForm">
+                <input type="hidden" id="editDebtId">
+                <div class="form-group">
+                    <label for="editDebtAmount">Amount (VND)</label>
+                    <div class="currency-input">
+                        <span>VND</span>
+                        <input type="text" id="editDebtAmount" placeholder="Enter amount" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editDebtNote">Note</label>
+                    <textarea id="editDebtNote" placeholder="Update note"></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Debt added successfully!</span>
+    </div>
+
+    <script>
+        // Format number with spaces every 3 digits for VND
+        function formatVND(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        // Parse formatted VND back to number
+        function parseVND(formatted) {
+            return parseInt(formatted.replace(/\s/g, '')) || 0;
+        }
+
+        // Format input while typing
+        function formatInput(input) {
+            let value = input.value.replace(/\s/g, '');
+            if (!value) return '';
+            
+            // Remove non-numeric characters
+            value = value.replace(/\D/g, '');
+            
+            // Format with spaces
+            input.value = formatVND(value);
+        }
+
+        // Debt data storage
+        let debts = JSON.parse(localStorage.getItem('debts')) || [];
+        let debtIdCounter = parseInt(localStorage.getItem('debtIdCounter')) || 1;
+
+        // DOM Elements
+        const debtForm = document.getElementById('debtForm');
+        const debtAmountInput = document.getElementById('debtAmount');
+        const debtNoteInput = document.getElementById('debtNote');
+        const debtsContainer = document.getElementById('debtsContainer');
+        const emptyState = document.getElementById('emptyState');
+        const totalAmountElement = document.getElementById('totalAmount');
+        const editModal = document.getElementById('editModal');
+        const editDebtForm = document.getElementById('editDebtForm');
+        const editDebtIdInput = document.getElementById('editDebtId');
+        const editDebtAmountInput = document.getElementById('editDebtAmount');
+        const editDebtNoteInput = document.getElementById('editDebtNote');
+        const closeModal = document.getElementById('closeModal');
+        const cancelEdit = document.getElementById('cancelEdit');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+
+        // Format amount input while typing
+        debtAmountInput.addEventListener('input', () => formatInput(debtAmountInput));
+        editDebtAmountInput.addEventListener('input', () => formatInput(editDebtAmountInput));
+
+        // Calculate total debts
+        function calculateTotal() {
+            const total = debts.reduce((sum, debt) => sum + debt.amount, 0);
+            totalAmountElement.textContent = formatVND(total);
+        }
+
+        // Show notification
+        function showNotification(message, isError = false) {
+            notificationText.textContent = message;
+            notification.className = 'notification' + (isError ? ' error' : '');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Render all debts
+        function renderDebts() {
+            if (debts.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            debtsContainer.innerHTML = '';
+            
+            debts.forEach(debt => {
+                const debtElement = document.createElement('div');
+                debtElement.className = 'debt-widget';
+                debtElement.innerHTML = `
+                    <div class="debt-header">
+                        <div>
+                            <div class="debt-amount">${formatVND(debt.amount)}</div>
+                            <div class="currency">VND</div>
+                        </div>
+                        <div style="color: ${debt.amount >= 10000000 ? '#ef476f' : '#06d6a0'}; font-weight: 600; font-size: 0.9rem;">
+                            ${debt.amount >= 10000000 ? 'High' : 'Medium'}
+                        </div>
+                    </div>
+                    <div class="debt-note">${debt.note || 'No note provided'}</div>
+                    <div class="debt-actions">
+                        <button class="btn btn-action btn-increase" data-id="${debt.id}">
+                            <i class="fas fa-plus"></i> 
+                        </button>
+                        <button class="btn btn-action btn-decrease" data-id="${debt.id}">
+                            <i class="fas fa-minus"></i> 
+                        </button>
+                        <button class="btn btn-action btn-edit" data-id="${debt.id}">
+                            <i class="fas fa-edit"></i> 
+                        </button>
+                        <button class="btn btn-action btn-delete" data-id="${debt.id}">
+                            <i class="fas fa-trash"></i> 
+                        </button>
+                    </div>
+                `;
+                
+                debtsContainer.appendChild(debtElement);
+            });
+            
+            calculateTotal();
+        }
+
+        // Add new debt
+        debtForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const amount = parseVND(debtAmountInput.value);
+            const note = debtNoteInput.value.trim();
+            
+            if (!amount || amount <= 0) {
+                showNotification('Please enter a valid amount', true);
+                return;
+            }
+            
+            const newDebt = {
+                id: debtIdCounter++,
+                amount: amount,
+                note: note,
+                createdAt: new Date().toISOString()
+            };
+            
+            debts.push(newDebt);
+            localStorage.setItem('debts', JSON.stringify(debts));
+            localStorage.setItem('debtIdCounter', debtIdCounter);
+            
+            renderDebts();
+            debtForm.reset();
+            showNotification('Debt added successfully!');
+        });
+
+        // Handle debt actions (increase, decrease, edit, delete)
+        debtsContainer.addEventListener('click', function(e) {
+            const target = e.target.closest('button');
+            if (!target) return;
+            
+            const debtId = parseInt(target.dataset.id);
+            const debtIndex = debts.findIndex(d => d.id === debtId);
+            
+            if (debtIndex === -1) return;
+            
+            // Increase amount
+            if (target.classList.contains('btn-increase')) {
+                debts[debtIndex].amount += 5000;
+                showNotification(`Increased debt by ${formatVND(100000)} VND`);
+            }
+            
+            // Decrease amount
+            else if (target.classList.contains('btn-decrease')) {
+                if (debts[debtIndex].amount > 5000) {
+                    debts[debtIndex].amount -= 5000;
+                    showNotification(`Decreased debt by ${formatVND(100000)} VND`);
+                } else {
+                    showNotification('Debt amount cannot be less than 0', true);
+                }
+            }
+            
+            // Edit debt
+            else if (target.classList.contains('btn-edit')) {
+                editDebtIdInput.value = debts[debtIndex].id;
+                editDebtAmountInput.value = formatVND(debts[debtIndex].amount);
+                editDebtNoteInput.value = debts[debtIndex].note || '';
+                editModal.style.display = 'flex';
+            }
+            
+            // Delete debt
+            else if (target.classList.contains('btn-delete')) {
+                if (confirm('Are you sure you want to delete this debt?')) {
+                    debts.splice(debtIndex, 1);
+                    showNotification('Debt deleted successfully');
+                }
+            }
+            
+            localStorage.setItem('debts', JSON.stringify(debts));
+            renderDebts();
+        });
+
+        // Edit debt form submission
+        editDebtForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const debtId = parseInt(editDebtIdInput.value);
+            const debtIndex = debts.findIndex(d => d.id === debtId);
+            
+            if (debtIndex === -1) return;
+            
+            const amount = parseVND(editDebtAmountInput.value);
+            const note = editDebtNoteInput.value.trim();
+            
+            if (!amount || amount <= 0) {
+                showNotification('Please enter a valid amount', true);
+                return;
+            }
+            
+            debts[debtIndex].amount = amount;
+            debts[debtIndex].note = note;
+            
+            localStorage.setItem('debts', JSON.stringify(debts));
+            renderDebts();
+            
+            editModal.style.display = 'none';
+            showNotification('Debt updated successfully!');
+        });
+
+        // Close modal functions
+        closeModal.addEventListener('click', () => {
+            editModal.style.display = 'none';
+        });
+        
+        cancelEdit.addEventListener('click', () => {
+            editModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                editModal.style.display = 'none';
+            }
+        });
+
+        // Initialize the app
+        renderDebts();
+        
+        // Add sample data if no debts exist
+        if (debts.length === 0) {
+            // Uncomment the following lines to add sample data on first load
+            
+            debts = [
+                { id: 1, amount: 5000000, note: "Loan to John for car repair", createdAt: new Date().toISOString() },
+                { id: 2, amount: 15000000, note: "Credit card debt", createdAt: new Date().toISOString() },
+                { id: 3, amount: 7500000, note: "Personal loan", createdAt: new Date().toISOString() }
+            ];
+            debtIdCounter = 4;
+            localStorage.setItem('debts', JSON.stringify(debts));
+            localStorage.setItem('debtIdCounter', debtIdCounter);
+            renderDebts();
+            
+        }
+    </script>
+</body>
+</html>
